@@ -1,22 +1,16 @@
-let imageFilenames = [];
-
-async function detectNumberedImages() {
-    // Try to fetch the directory listing (works if served with directory listing enabled)
-    try {
-        const response = await fetch('images/');
-        const text = await response.text();
-        // Parse for numbered jpgs (e.g., 1.jpg, 2.jpg, ...)
-        const matches = Array.from(text.matchAll(/([0-9]+)\.jpg/gi));
-        const uniqueNumbers = Array.from(new Set(matches.map(m => parseInt(m[1], 10)))).sort((a, b) => a - b);
-        imageFilenames = uniqueNumbers.map(num => `images/${num}.jpg`);
-    } catch (e) {
-        // Fallback: default to 1-11 if fetch fails
-        imageFilenames = [];
-        for (let i = 1; i <= 11; i++) {
-            imageFilenames.push(`images/${i}.jpg`);
-        }
-    }
-}
+const imageFilenames = [
+    'images/1.jpg',
+    'images/2.jpg',
+    'images/3.jpg',
+    'images/4.jpg',
+    'images/5.jpg',
+    'images/6.jpg',
+    'images/7.jpg',
+    'images/8.jpg',
+    'images/9.jpg',
+    'images/10.jpg',
+    'images/11.jpg'
+];
 
 const COLS = 8;
 const ROWS = 6;
@@ -95,10 +89,5 @@ function swapRowImages() {
     }
 }
 
-async function startCollage() {
-    await detectNumberedImages();
-    setupCollage();
-    setInterval(swapRowImages, FADE_INTERVAL);
-}
-
-startCollage(); 
+setupCollage();
+setInterval(swapRowImages, FADE_INTERVAL); 
